@@ -1,7 +1,7 @@
 plugins {
     id("java")
-    id("application")  // Add this for running the application
-    id("maven-publish")
+    id("application")
+    id("maven-publish")  // Already included
 }
 
 group = "org.example"
@@ -12,13 +12,13 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0")) // BOM for version management
-    testImplementation("org.junit.jupiter:junit-jupiter-api") // API for writing tests
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine") // Engine to run tests
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 application {
-    mainClass.set("org.example.Main")  // Configure the main class
+    mainClass.set("org.example.Main")
 }
 
 tasks.test {
@@ -28,12 +28,18 @@ tasks.test {
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            from(components["java"])  // Публикует JAR-файл
-            // Дополнительные метаданные (опционально)
+            from(components["java"])
+            // Customize POM metadata (optional)
             pom {
-                name.set("Bicycle Rental")
-                description.set("Library for bicycle rental management")
+                name.set("My Java Library")
+                description.set("A library published to GitHub Packages")
                 url.set("https://github.com/alohalilpeep/bicycle_rental")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
             }
         }
     }
@@ -48,4 +54,3 @@ publishing {
         }
     }
 }
-
