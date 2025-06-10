@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("application")  // Add this for running the application
+    id("maven-publish")
 }
 
 group = "org.example"
