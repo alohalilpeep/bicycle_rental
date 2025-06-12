@@ -4,9 +4,6 @@ plugins {
     id("maven-publish")
 }
 
-group = "org.alohalilpeep"
-version = "1.0.1"
-
 repositories {
     mavenCentral()
 }
@@ -40,8 +37,8 @@ publishing {
         register<MavenPublication>("gpr") {
             from(components["java"])
             groupId = "org.alohalilpeep"
-            artifactId = "bicycle-rental" // Must match your repo name
-            version = "1.0.1"
+            artifactId = "bicycle-rental"
+            version = "1.0.3"
         }
     }
 }
