@@ -2,6 +2,14 @@ plugins {
     id("java")
     id("application")
     id("maven-publish")
+    id("checkstyle")
+}
+
+checkstyle {
+    toolVersion = "10.12.1" // Latest version as of 2023
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    isIgnoreFailures = false
+    isShowViolations = true
 }
 
 repositories {
