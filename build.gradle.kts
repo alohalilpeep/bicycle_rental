@@ -1,7 +1,7 @@
 plugins {
     id("java")
     id("application")
-    id("maven-publish")  // Already included
+    id("maven-publish")
 }
 
 group = "org.alohalilpeep"
@@ -31,14 +31,14 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/alohalilpeep/bicycle_rental")
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("alohalilpeep")
-                password = project.findProperty("gpr.key") ?: System.getenv("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")
+                username = (project.findProperty("gpr.user") as String?) ?: System.getenv("alohalilpeep")
+                password = (project.findProperty("gpr.key") as String?) ?: System.getenv("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")
             }
         }
     }
     publications {
-        gpr(MavenPublication) {
-            from(components.java)
+        register<MavenPublication>("gpr") {
+            from(components["java"])
         }
     }
 }
