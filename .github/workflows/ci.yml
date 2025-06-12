@@ -3,7 +3,6 @@ name: CI Pipeline
 on:
   pull_request:
     branches: [ "main" ]
-
   push:
     branches: [ "dev" ]
 
@@ -20,5 +19,11 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
-      - name: Build and test with Gradle
+      - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Run Checkstyle (Linter)
+        run: ./gradlew checkstyleMain checkstyleTest
+
+      - name: Run Tests with JUnit 5
+        run: ./gradlew test
