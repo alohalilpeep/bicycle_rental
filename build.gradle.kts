@@ -4,8 +4,8 @@ plugins {
     id("maven-publish")  // Already included
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = "org.alohalilpeep"
+version = "1.0-1"
 
 repositories {
     mavenCentral()
@@ -26,30 +26,13 @@ tasks.test {
 }
 
 publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-            // Customize POM metadata (optional)
-            pom {
-                name.set("My Java Library")
-                description.set("A library published to GitHub Packages")
-                url.set("https://github.com/alohalilpeep/bicycle_rental")
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-            }
-        }
-    }
     repositories {
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/alohalilpeep/bicycle_rental")
             credentials {
-                username = System.getenv("GITHUB_ACTOR") ?: ""
-                password = System.getenv("GITHUB_TOKEN") ?: ""
+                username = (project.findProperty("gpr.user") as? String) ?: System.getenv("GITHUB_ACTOR")
+                password = (project.findProperty("gpr.key") as? String) ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
