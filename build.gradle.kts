@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.alohalilpeep"
-version = "1.0-1"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -31,9 +31,14 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/alohalilpeep/bicycle_rental")
             credentials {
-                username = (project.findProperty("gpr.user") as? String) ?: System.getenv("GITHUB_ACTOR")
-                password = (project.findProperty("gpr.key") as? String) ?: System.getenv("GITHUB_TOKEN")
+                username = project.findProperty("gpr.user") ?: System.getenv("alohalilpeep")
+                password = project.findProperty("gpr.key") ?: System.getenv("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")
             }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
         }
     }
 }
