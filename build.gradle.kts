@@ -31,14 +31,17 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/alohalilpeep/bicycle_rental")
             credentials {
-                username = (project.findProperty("gpr.user") as String?) ?: System.getenv("alohalilpeep")
-                password = (project.findProperty("gpr.key") as String?) ?: System.getenv("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")
+                username = project.findProperty("gpr.user")?.toString() ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key")?.toString() ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
     publications {
         register<MavenPublication>("gpr") {
             from(components["java"])
+            groupId = "org.alohalilpeep"
+            artifactId = "bicycle-rental" // Must match your repo name
+            version = "1.0.1"
         }
     }
 }
