@@ -46,7 +46,7 @@ class PaymentServiceImplTest {
     private PaymentServiceImpl paymentService;
 
     @Test
-    void addPaymentMethod_WithInvalidDto_ShouldNotProceed() {
+    void addPaymentMethodWithInvalidDtoShouldNotProceed() {
         // Arrange
         PaymentMethodDto invalidDto = new PaymentMethodDto();
         when(validationUtil.isValid(invalidDto)).thenReturn(false);
@@ -60,7 +60,7 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    void addPaymentMethod_WhenUserNotFound_ShouldThrowException() {
+    void addPaymentMethodWhenUserNotFoundShouldThrowException() {
         // Arrange
         PaymentMethodDto validDto = createValidDto();
         when(validationUtil.isValid(validDto)).thenReturn(true);
@@ -73,7 +73,7 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    void addPaymentMethod_WithValidDto_ShouldSavePaymentMethod() {
+    void addPaymentMethodWithValidDtoShouldSavePaymentMethod() {
         // Arrange
         PaymentMethodDto dto = createValidDto();
         User user = new User();
@@ -92,7 +92,7 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    void addPaymentMethod_WhenSettingDefault_ShouldUpdateExistingDefaults() {
+    void addPaymentMethodWhenSettingDefaultShouldUpdateExistingDefaults() {
         // Arrange
         PaymentMethodDto dto = createValidDto();
         dto.setDefault(true);
@@ -120,7 +120,7 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    void addPaymentMethod_WhenNoExistingDefaults_ShouldSetNewAsDefault() {
+    void addPaymentMethodWhenNoExistingDefaultsShouldSetNewAsDefault() {
         // Arrange
         PaymentMethodDto dto = createValidDto();
         dto.setDefault(true);
@@ -144,7 +144,7 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    void addPaymentMethod_WhenNotDefault_ShouldNotUpdateExistingDefaults() {
+    void addPaymentMethodWhenNotDefaultShouldNotUpdateExistingDefaults() {
         // Arrange
         PaymentMethodDto dto = createValidDto();
         dto.setDefault(false);
@@ -166,7 +166,7 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    void getUserPaymentMethods_WhenUserNotFound_ShouldThrowException() {
+    void getUserPaymentMethodsWhenUserNotFoundShouldThrowException() {
         // Arrange
         when(userRepository.findById("user-404")).thenReturn(Optional.empty());
 
@@ -176,7 +176,7 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    void getUserPaymentMethods_WhenUserExists_ShouldReturnMethods() {
+    void getUserPaymentMethodsWhenUserExistsShouldReturnMethods() {
         // Arrange
         User user = new User();
         PaymentMethod method1 = new PaymentMethod();
@@ -195,7 +195,7 @@ class PaymentServiceImplTest {
     private PaymentMethodDto createValidDto() {
         PaymentMethodDto dto = new PaymentMethodDto();
         dto.setUserId("user-123");
-        dto.setMethodType("CREDIT_CARD");
+        dto.setMethodType("CREDITCARD");
         dto.setDetails("encrypted-data");
         dto.setDefault(false);
         return dto;

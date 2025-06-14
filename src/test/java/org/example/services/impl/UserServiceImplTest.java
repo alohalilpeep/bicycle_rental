@@ -54,7 +54,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void registerUser_WithValidDto_ShouldSaveUser() {
+    void registerUserWithValidDtoShouldSaveUser() {
         // Arrange
         when(validationUtil.isValid(validUserDto)).thenReturn(true);
         when(userRepository.findByEmail(validUserDto.getEmail())).thenReturn(null);
@@ -68,7 +68,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void registerUser_WithInvalidDto_ShouldNotSaveUser() {
+    void registerUserWithInvalidDtoShouldNotSaveUser() {
         // Arrange
         when(validationUtil.isValid(invalidUserDto)).thenReturn(false);
 
@@ -80,7 +80,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void registerUser_WithExistingEmail_ShouldNotSaveUser() {
+    void registerUserWithExistingEmailShouldNotSaveUser() {
         // Arrange
         when(validationUtil.isValid(validUserDto)).thenReturn(true);
         when(userRepository.findByEmail(validUserDto.getEmail())).thenReturn(user);
@@ -93,7 +93,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByEmail_WithExistingEmail_ShouldReturnUser() {
+    void findByEmailWithExistingEmailShouldReturnUser() {
         // Arrange
         String email = "test@example.com";
         when(userRepository.findByEmail(email)).thenReturn(user);
@@ -107,7 +107,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByEmail_WithNonExistingEmail_ShouldReturnNull() {
+    void findByEmailWithNonExistingEmailShouldReturnNull() {
         // Arrange
         String email = "nonexistent@example.com";
         when(userRepository.findByEmail(email)).thenReturn(null);
@@ -120,7 +120,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findAllActiveUsers_ShouldReturnActiveUsers() {
+    void findAllActiveUsersShouldReturnActiveUsers() {
         // Arrange
         List<User> activeUsers = Collections.singletonList(user);
         when(userRepository.findByIsActiveTrue()).thenReturn(activeUsers);
@@ -135,7 +135,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findAllActiveUsers_WhenNoActiveUsers_ShouldReturnEmptyList() {
+    void findAllActiveUsersWhenNoActiveUsersShouldReturnEmptyList() {
         // Arrange
         when(userRepository.findByIsActiveTrue()).thenReturn(Collections.emptyList());
 

@@ -36,7 +36,7 @@ class BikeServiceImplTest {
     private BikeServiceImpl bikeService;
 
     @Test
-    void addBike_WithInvalidDto_ShouldNotSave() {
+    void addBikeWithInvalidDtoShouldNotSave() {
         // Arrange
         BikeDto invalidDto = new BikeDto();
         when(validationUtil.isValid(invalidDto)).thenReturn(false);
@@ -50,7 +50,7 @@ class BikeServiceImplTest {
     }
 
     @Test
-    void addBike_WithValidDto_ShouldMapAndSave() {
+    void addBikeWithValidDtoShouldMapAndSave() {
         // Arrange
         BikeDto validDto = new BikeDto();
         Bike mappedBike = new Bike();
@@ -67,7 +67,7 @@ class BikeServiceImplTest {
     }
 
     @Test
-    void findAvailableBikes_ShouldReturnFilteredList() {
+    void findAvailableBikesShouldReturnFilteredList() {
         // Arrange
         Bike availableBike = new Bike();
         availableBike.setCurrentStatus(BikeStatus.AVAILABLE);
@@ -84,7 +84,7 @@ class BikeServiceImplTest {
     }
 
     @Test
-    void findAvailableBikes_WhenNoneAvailable_ShouldReturnEmptyList() {
+    void findAvailableBikesWhenNoneAvailableShouldReturnEmptyList() {
         // Arrange
         when(bikeRepository.findByCurrentStatus(BikeStatus.AVAILABLE))
                 .thenReturn(Collections.emptyList());
@@ -97,7 +97,7 @@ class BikeServiceImplTest {
     }
 
     @Test
-    void changeBikeStatus_WhenBikeExists_ShouldUpdateStatus() {
+    void changeBikeStatusWhenBikeExistsShouldUpdateStatus() {
         // Arrange
         String bikeId = "bike-123";
         BikeStatus newStatus = BikeStatus.IN_USE;
@@ -114,7 +114,7 @@ class BikeServiceImplTest {
     }
 
     @Test
-    void changeBikeStatus_WhenBikeNotFound_ShouldDoNothing() {
+    void changeBikeStatusWhenBikeNotFoundShouldDoNothing() {
         // Arrange
         String bikeId = "non-existent";
         when(bikeRepository.findById(bikeId)).thenReturn(Optional.empty());

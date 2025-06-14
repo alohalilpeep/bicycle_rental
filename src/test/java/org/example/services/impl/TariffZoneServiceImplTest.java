@@ -36,7 +36,7 @@ class TariffZoneServiceImplTest {
     private TariffZoneServiceImpl tariffZoneService;
 
     @Test
-    void createTariffZone_WithInvalidDto_ShouldNotProceed() {
+    void createTariffZoneWithInvalidDtoShouldNotProceed() {
         // Arrange
         TariffZoneDto invalidDto = new TariffZoneDto();
         when(validationUtil.isValid(invalidDto)).thenReturn(false);
@@ -50,7 +50,7 @@ class TariffZoneServiceImplTest {
     }
 
     @Test
-    void createTariffZone_WithExistingZoneName_ShouldNotSave() {
+    void createTariffZoneWithExistingZoneNameShouldNotSave() {
         // Arrange
         TariffZoneDto validDto = createValidDto();
         when(validationUtil.isValid(validDto)).thenReturn(true);
@@ -64,7 +64,7 @@ class TariffZoneServiceImplTest {
     }
 
     @Test
-    void createTariffZone_WithValidNewZone_ShouldSave() {
+    void createTariffZoneWithValidNewZoneShouldSave() {
         // Arrange
         TariffZoneDto validDto = createValidDto();
         TariffZone zone = new TariffZone();
@@ -85,7 +85,7 @@ class TariffZoneServiceImplTest {
     }
 
     @Test
-    void getAllTariffZones_ShouldReturnAllZones() {
+    void getAllTariffZonesShouldReturnAllZones() {
         // Arrange
         TariffZone zone1 = createTestZone("Zone1");
         TariffZone zone2 = createTestZone("Zone2");
@@ -100,7 +100,7 @@ class TariffZoneServiceImplTest {
     }
 
     @Test
-    void updateZonePrices_WithExistingZone_ShouldUpdatePrices() {
+    void updateZonePricesWithExistingZoneShouldUpdatePrices() {
         // Arrange
         String zoneId = "zone-123";
         BigDecimal newBasePrice = new BigDecimal("5.00");
@@ -119,7 +119,7 @@ class TariffZoneServiceImplTest {
     }
 
     @Test
-    void updateZonePrices_WithNonExistingZone_ShouldDoNothing() {
+    void updateZonePricesWithNonExistingZoneShouldDoNothing() {
         // Arrange
         String zoneId = "non-existent";
         when(tariffZoneRepository.findById(zoneId)).thenReturn(Optional.empty());
@@ -132,7 +132,7 @@ class TariffZoneServiceImplTest {
     }
 
     @Test
-    void updateZonePrices_WithNullPrices_ShouldThrowException() {
+    void updateZonePricesWithNullPricesShouldThrowException() {
         // Act & Assert - no repository mocking needed since exception is thrown first
         assertThrows(NullPointerException.class, () ->
                 tariffZoneService.updateZonePrices("zone-123", null, new BigDecimal("0.25")));

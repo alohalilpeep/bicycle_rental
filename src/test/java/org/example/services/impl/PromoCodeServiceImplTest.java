@@ -34,7 +34,7 @@ class PromoCodeServiceImplTest {
     private PromoCodeServiceImpl promoCodeService;
 
     @Test
-    void createPromoCode_WithInvalidDto_ShouldNotProceed() {
+    void createPromoCodeWithInvalidDtoShouldNotProceed() {
         // Arrange
         PromoCodeDto invalidDto = new PromoCodeDto();
         when(validationUtil.isValid(invalidDto)).thenReturn(false);
@@ -48,7 +48,7 @@ class PromoCodeServiceImplTest {
     }
 
     @Test
-    void createPromoCode_WithExistingCode_ShouldNotSave() {
+    void createPromoCodeWithExistingCodeShouldNotSave() {
         // Arrange
         PromoCodeDto validDto = createValidDto();
         when(validationUtil.isValid(validDto)).thenReturn(true);
@@ -62,7 +62,7 @@ class PromoCodeServiceImplTest {
     }
 
     @Test
-    void createPromoCode_WithValidNewCode_ShouldSave() {
+    void createPromoCodeWithValidNewCodeShouldSave() {
         // Arrange
         PromoCodeDto validDto = createValidDto();
         PromoCode promoCode = new PromoCode();
@@ -79,7 +79,7 @@ class PromoCodeServiceImplTest {
     }
 
     @Test
-    void validatePromoCode_WithNonExistingCode_ShouldReturnFalse() {
+    void validatePromoCodeWithNonExistingCodeShouldReturnFalse() {
         // Arrange
         when(promoCodeRepository.findByCode("INVALID")).thenReturn(Optional.empty());
 
@@ -91,7 +91,7 @@ class PromoCodeServiceImplTest {
     }
 
     @Test
-    void validatePromoCode_WithInactiveCode_ShouldReturnFalse() {
+    void validatePromoCodeWithInactiveCodeShouldReturnFalse() {
         // Arrange
         PromoCode inactiveCode = createTestPromoCode();
         inactiveCode.setIsActive(false);
@@ -105,7 +105,7 @@ class PromoCodeServiceImplTest {
     }
 
     @Test
-    void validatePromoCode_WithExpiredCode_ShouldReturnFalse() {
+    void validatePromoCodeWithExpiredCodeShouldReturnFalse() {
         // Arrange
         PromoCode expiredCode = createTestPromoCode();
         expiredCode.setValidTo(LocalDate.now().minusDays(1));
@@ -119,7 +119,7 @@ class PromoCodeServiceImplTest {
     }
 
     @Test
-    void validatePromoCode_WithNotYetValidCode_ShouldReturnFalse() {
+    void validatePromoCodeWithNotYetValidCodeShouldReturnFalse() {
         // Arrange
         PromoCode futureCode = createTestPromoCode();
         futureCode.setValidFrom(LocalDate.now().plusDays(1));
@@ -133,7 +133,7 @@ class PromoCodeServiceImplTest {
     }
 
     @Test
-    void validatePromoCode_WithExceededUsage_ShouldReturnFalse() {
+    void validatePromoCodeWithExceededUsageShouldReturnFalse() {
         // Arrange
         PromoCode overusedCode = createTestPromoCode();
         overusedCode.setMaxUses(10);
@@ -148,7 +148,7 @@ class PromoCodeServiceImplTest {
     }
 
     @Test
-    void validatePromoCode_WithValidCode_ShouldReturnTrue() {
+    void validatePromoCodeWithValidCodeShouldReturnTrue() {
         // Arrange
         PromoCode validCode = createTestPromoCode();
         when(promoCodeRepository.findByCode("VALID")).thenReturn(Optional.of(validCode));
@@ -161,7 +161,7 @@ class PromoCodeServiceImplTest {
     }
 
     @Test
-    void validatePromoCode_WithNullMaxUses_ShouldReturnTrue() {
+    void validatePromoCodeWithNullMaxUsesShouldReturnTrue() {
         // Arrange
         PromoCode unlimitedCode = createTestPromoCode();
         unlimitedCode.setMaxUses(null);

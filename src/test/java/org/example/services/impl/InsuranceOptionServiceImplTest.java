@@ -35,7 +35,7 @@ class InsuranceOptionServiceImplTest {
     private InsuranceOptionServiceImpl insuranceOptionService;
 
     @Test
-    void createInsuranceOption_WithInvalidDto_ShouldNotSave() {
+    void createInsuranceOptionWithInvalidDtoShouldNotSave() {
         // Arrange
         InsuranceOptionDto invalidDto = new InsuranceOptionDto();
         when(validationUtil.isValid(invalidDto)).thenReturn(false);
@@ -49,7 +49,7 @@ class InsuranceOptionServiceImplTest {
     }
 
     @Test
-    void createInsuranceOption_WithValidDto_ShouldMapAndSave() {
+    void createInsuranceOptionWithValidDtoShouldMapAndSave() {
         // Arrange
         InsuranceOptionDto validDto = new InsuranceOptionDto();
         InsuranceOption mappedOption = new InsuranceOption();
@@ -65,7 +65,7 @@ class InsuranceOptionServiceImplTest {
     }
 
     @Test
-    void getAllActiveInsuranceOptions_WhenOptionsExist_ShouldReturnList() {
+    void getAllActiveInsuranceOptionsWhenOptionsExistShouldReturnList() {
         // Arrange
         InsuranceOption activeOption = new InsuranceOption();
         activeOption.setIsActive(true);
@@ -82,7 +82,7 @@ class InsuranceOptionServiceImplTest {
     }
 
     @Test
-    void getAllActiveInsuranceOptions_WhenNoOptions_ShouldReturnEmptyList() {
+    void getAllActiveInsuranceOptionsWhenNoOptionsShouldReturnEmptyList() {
         // Arrange
         when(insuranceOptionRepository.findByIsActiveTrue())
                 .thenReturn(Collections.emptyList());
@@ -95,7 +95,7 @@ class InsuranceOptionServiceImplTest {
     }
 
     @Test
-    void toggleInsuranceOptionStatus_WhenOptionExists_ShouldUpdateStatus() {
+    void toggleInsuranceOptionStatusWhenOptionExistsShouldUpdateStatus() {
         // Arrange
         String optionId = "ins-123";
         InsuranceOption existingOption = new InsuranceOption();
@@ -113,7 +113,7 @@ class InsuranceOptionServiceImplTest {
     }
 
     @Test
-    void toggleInsuranceOptionStatus_WhenOptionNotFound_ShouldDoNothing() {
+    void toggleInsuranceOptionStatusWhenOptionNotFoundShouldDoNothing() {
         // Arrange
         String optionId = "non-existent";
         when(insuranceOptionRepository.findById(optionId))
@@ -127,7 +127,7 @@ class InsuranceOptionServiceImplTest {
     }
 
     @Test
-    void toggleInsuranceOptionStatus_WhenOptionExists_ShouldDeactivate() {
+    void toggleInsuranceOptionStatusWhenOptionExistsShouldDeactivate() {
         // Arrange
         String optionId = "ins-456";
         InsuranceOption existingOption = new InsuranceOption();

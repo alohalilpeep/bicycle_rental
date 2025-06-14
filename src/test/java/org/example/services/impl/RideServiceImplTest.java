@@ -94,7 +94,7 @@ class RideServiceImplTest {
     }
 
     @Test
-    void startRide_ValidRequest_ReturnsRideResponse() {
+    void startRideValidRequestReturnsRideResponse() {
         when(validationUtil.isValid(rideRequestDto)).thenReturn(true);
         when(userRepository.findById("user1")).thenReturn(Optional.of(user));
         when(bikeRepository.findById("bike1")).thenReturn(Optional.of(bike));
@@ -111,14 +111,14 @@ class RideServiceImplTest {
     }
 
     @Test
-    void startRide_InvalidRequest_ThrowsException() {
+    void startRideInvalidRequestThrowsException() {
         when(validationUtil.isValid(rideRequestDto)).thenReturn(false);
 
         assertThrows(IllegalArgumentException.class, () -> rideService.startRide(rideRequestDto));
     }
 
     @Test
-    void startRide_UserNotFound_ThrowsException() {
+    void startRideUserNotFoundThrowsException() {
         when(validationUtil.isValid(rideRequestDto)).thenReturn(true);
         when(userRepository.findById("user1")).thenReturn(Optional.empty());
 
@@ -126,7 +126,7 @@ class RideServiceImplTest {
     }
 
     @Test
-    void startRide_BikeNotFound_ThrowsException() {
+    void startRideBikeNotFoundThrowsException() {
         when(validationUtil.isValid(rideRequestDto)).thenReturn(true);
         when(userRepository.findById("user1")).thenReturn(Optional.of(user));
         when(bikeRepository.findById("bike1")).thenReturn(Optional.empty());
@@ -135,7 +135,7 @@ class RideServiceImplTest {
     }
 
     @Test
-    void startRide_ZoneNotFound_ThrowsException() {
+    void startRideZoneNotFoundThrowsException() {
         when(validationUtil.isValid(rideRequestDto)).thenReturn(true);
         when(userRepository.findById("user1")).thenReturn(Optional.of(user));
         when(bikeRepository.findById("bike1")).thenReturn(Optional.of(bike));
@@ -145,7 +145,7 @@ class RideServiceImplTest {
     }
 
     @Test
-    void startRide_BikeNotAvailable_ThrowsException() {
+    void startRideBikeNotAvailableThrowsException() {
         bike.setCurrentStatus(BikeStatus.MAINTENANCE);
 
         // Mock all required repository calls that happen before bike status check
@@ -158,7 +158,7 @@ class RideServiceImplTest {
     }
 
     @Test
-    void endRide_ValidRequest_ReturnsRideResponse() {
+    void endRideValidRequestReturnsRideResponse() {
         TariffZone endZone = new TariffZone();
         endZone.setId("zone2");
 
@@ -179,14 +179,14 @@ class RideServiceImplTest {
     }
 
     @Test
-    void endRide_RideNotFound_ThrowsException() {
+    void endRideRideNotFoundThrowsException() {
         when(rideRepository.findById("ride1")).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () -> rideService.endRide("ride1", "zone2"));
     }
 
     @Test
-    void endRide_EndZoneNotFound_ThrowsException() {
+    void endRideEndZoneNotFoundThrowsException() {
         when(rideRepository.findById("ride1")).thenReturn(Optional.of(ride));
         when(tariffZoneRepository.findById("zone2")).thenReturn(Optional.empty());
 
@@ -194,7 +194,7 @@ class RideServiceImplTest {
     }
 
     @Test
-    void endRide_CalculatesCostCorrectly_BaseCostOnly() {
+    void endRideCalculatesCostCorrectlyBaseCostOnly() {
         // Setup
         TariffZone endZone = new TariffZone();
         endZone.setId("zone2");
@@ -227,7 +227,7 @@ class RideServiceImplTest {
     }
 
     @Test
-    void endRide_CalculatesCostCorrectly_WithInsurance() {
+    void endRideCalculatesCostCorrectlyWithInsurance() {
         // Setup
         TariffZone endZone = new TariffZone();
         endZone.setId("zone2");
@@ -265,7 +265,7 @@ class RideServiceImplTest {
     }
 
     @Test
-    void endRide_CalculatesCostCorrectly_WithPercentagePromoCode() {
+    void endRideCalculatesCostCorrectlyWithPercentagePromoCode() {
         // Setup
         TariffZone endZone = new TariffZone();
         endZone.setId("zone2");

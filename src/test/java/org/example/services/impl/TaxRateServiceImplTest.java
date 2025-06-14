@@ -59,7 +59,7 @@ class TaxRateServiceImplTest {
     }
 
     @Test
-    void createTaxRate_WithValidDto_ShouldSaveTaxRate() {
+    void createTaxRateWithValidDtoShouldSaveTaxRate() {
         // Arrange
         when(validationUtil.isValid(validTaxRateDto)).thenReturn(true);
         when(taxRateRepository.findByTaxName(validTaxRateDto.getTaxName())).thenReturn(null);
@@ -73,7 +73,7 @@ class TaxRateServiceImplTest {
     }
 
     @Test
-    void createTaxRate_WithInvalidDto_ShouldNotSaveTaxRate() {
+    void createTaxRateWithInvalidDtoShouldNotSaveTaxRate() {
         // Arrange
         when(validationUtil.isValid(invalidTaxRateDto)).thenReturn(false);
 
@@ -85,7 +85,7 @@ class TaxRateServiceImplTest {
     }
 
     @Test
-    void createTaxRate_WithExistingTaxName_ShouldNotSaveTaxRate() {
+    void createTaxRateWithExistingTaxNameShouldNotSaveTaxRate() {
         // Arrange
         when(validationUtil.isValid(validTaxRateDto)).thenReturn(true);
         when(taxRateRepository.findByTaxName(validTaxRateDto.getTaxName())).thenReturn(taxRate);
@@ -98,7 +98,7 @@ class TaxRateServiceImplTest {
     }
 
     @Test
-    void getAllActiveTaxRates_ShouldReturnActiveTaxRates() {
+    void getAllActiveTaxRatesShouldReturnActiveTaxRates() {
         // Arrange
         List<TaxRate> expectedTaxRates = Collections.singletonList(taxRate);
         when(taxRateRepository.findByIsActiveTrue()).thenReturn(expectedTaxRates);
@@ -112,7 +112,7 @@ class TaxRateServiceImplTest {
     }
 
     @Test
-    void toggleTaxRateStatus_WithExistingId_ShouldUpdateStatus() {
+    void toggleTaxRateStatusWithExistingIdShouldUpdateStatus() {
         // Arrange
         String taxId = "1";
         boolean newStatus = false;
@@ -127,7 +127,7 @@ class TaxRateServiceImplTest {
     }
 
     @Test
-    void toggleTaxRateStatus_WithNonExistingId_ShouldDoNothing() {
+    void toggleTaxRateStatusWithNonExistingIdShouldDoNothing() {
         // Arrange
         String taxId = "999";
         when(taxRateRepository.findById(taxId)).thenReturn(Optional.empty());

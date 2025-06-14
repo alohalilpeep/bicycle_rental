@@ -62,7 +62,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void recordTransaction_WithValidDto_ShouldSaveTransaction() {
+    void recordTransactionWithValidDtoShouldSaveTransaction() {
         // Arrange
         when(validationUtil.isValid(validTransactionDto)).thenReturn(true);
         when(modelMapper.map(validTransactionDto, Transaction.class)).thenReturn(transaction);
@@ -76,7 +76,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void recordTransaction_WithNullUserId_ShouldThrowException() {
+    void recordTransactionWithNullUserIdShouldThrowException() {
         // Arrange
         validTransactionDto.setUserId(null);
         when(validationUtil.isValid(validTransactionDto)).thenReturn(false);
@@ -91,7 +91,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void recordTransaction_WithNegativeAmount_ShouldThrowException() {
+    void recordTransactionWithNegativeAmountShouldThrowException() {
         // Arrange
         validTransactionDto.setAmount(BigDecimal.valueOf(-10.0));
         when(validationUtil.isValid(validTransactionDto)).thenReturn(false);
@@ -106,7 +106,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void recordTransaction_WithNullPaymentMethod_ShouldThrowException() {
+    void recordTransactionWithNullPaymentMethodShouldThrowException() {
         // Arrange
         validTransactionDto.setPaymentMethodId(null);
         when(validationUtil.isValid(validTransactionDto)).thenReturn(false);
@@ -121,7 +121,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void recordTransaction_WithNullStatus_ShouldThrowException() {
+    void recordTransactionWithNullStatusShouldThrowException() {
         // Arrange
         validTransactionDto.setStatus(null);
         when(validationUtil.isValid(validTransactionDto)).thenReturn(false);
@@ -136,7 +136,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void recordTransaction_WhenRepositoryFails_ShouldPropagateException() {
+    void recordTransactionWhenRepositoryFailsShouldPropagateException() {
         // Arrange
         when(validationUtil.isValid(validTransactionDto)).thenReturn(true);
         when(modelMapper.map(validTransactionDto, Transaction.class)).thenReturn(transaction);
@@ -149,7 +149,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void getUserTransactions_ShouldReturnUserTransactions() {
+    void getUserTransactionsShouldReturnUserTransactions() {
         // Arrange
         String userId = "user123";
         List<Transaction> expectedTransactions = Collections.singletonList(transaction);
@@ -164,7 +164,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void updateTransactionStatus_WithExistingTransaction_ShouldUpdateStatus() {
+    void updateTransactionStatusWithExistingTransactionShouldUpdateStatus() {
         // Arrange
         String transactionId = "txn123";
         TransactionStatus newStatus = TransactionStatus.FAILED;
@@ -179,7 +179,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void updateTransactionStatus_WithStringStatus_ShouldHandleConversion() {
+    void updateTransactionStatusWithStringStatusShouldHandleConversion() {
         // Arrange
         TransactionDto dtoWithStringStatus = new TransactionDto();
         dtoWithStringStatus.setStatus("PENDING");
