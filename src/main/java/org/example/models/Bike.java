@@ -1,7 +1,7 @@
 package org.example.models;
 
 import jakarta.persistence.*;
-import org.example.enums.BikeStatus;
+import org.example.models.enums.BikeStatus;
 
 import java.time.LocalDate;
 
@@ -14,7 +14,6 @@ public class Bike extends BaseEntity {
     private BikeStatus currentStatus = BikeStatus.AVAILABLE;
     private TariffZone currentZone;
 
-    // Геттеры и сеттеры
     @Column(name = "model", nullable = false)
     public String getModel() {
         return model;

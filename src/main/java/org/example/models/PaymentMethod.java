@@ -1,7 +1,7 @@
 package org.example.models;
 
 import jakarta.persistence.*;
-import org.example.enums.PaymentMethodType;
+import org.example.models.enums.PaymentMethodType;
 
 @Entity
 @Table(name = "payment_methods")
@@ -11,7 +11,6 @@ public class PaymentMethod extends BaseEntity {
     private String details;
     private Boolean isDefault = false;
 
-    // Геттеры и сеттеры
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     public User getUser() {
@@ -42,11 +41,11 @@ public class PaymentMethod extends BaseEntity {
     }
 
     @Column(name = "is_default", nullable = false)
-    public Boolean getDefault() {
+    public Boolean getIsDefault() {
         return isDefault;
     }
 
-    public void setDefault(Boolean aDefault) {
+    public void setIsDefault(Boolean aDefault) {
         isDefault = aDefault;
     }
 }

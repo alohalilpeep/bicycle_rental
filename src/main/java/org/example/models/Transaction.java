@@ -1,10 +1,7 @@
 package org.example.models;
 
 import jakarta.persistence.*;
-import org.example.enums.TransactionStatus;
-import org.example.models.BaseEntity;
-import org.example.models.PaymentMethod;
-import org.example.models.Ride;
+import org.example.models.enums.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,7 +16,6 @@ public class Transaction extends BaseEntity {
     private PaymentMethod paymentMethod;
     private TransactionStatus status;
 
-    // Геттеры и сеттеры
     @ManyToOne
     @JoinColumn(name = "ride_id")
     public Ride getRide() {
