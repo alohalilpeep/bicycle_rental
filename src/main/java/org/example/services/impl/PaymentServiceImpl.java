@@ -49,6 +49,8 @@ public class PaymentServiceImpl implements PaymentService {
         PaymentMethod paymentMethod = modelMapper.map(paymentMethodDto, PaymentMethod.class);
         paymentMethod.setUser(user);
 
+        paymentMethod.setIsDefault(paymentMethodDto.isDefault());
+
         if (paymentMethodDto.isDefault()) {
             paymentMethodRepository.findByUserAndIsDefaultTrue(user)
                     .forEach(pm -> {

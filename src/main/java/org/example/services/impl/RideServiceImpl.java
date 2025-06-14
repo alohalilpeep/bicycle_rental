@@ -2,6 +2,7 @@ package org.example.services.impl;
 
 import org.example.models.*;
 import org.example.models.enums.BikeStatus;
+import org.example.models.enums.DiscountType;
 import org.example.models.enums.PaymentStatus;
 import org.example.repositories.*;
 import org.example.services.RideService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -108,7 +110,59 @@ public class RideServiceImpl implements RideService {
     }
 
     private void calculateRideCost(Ride ride) {
-        //todo
-        // Логика расчета стоимости с учетом тарифа, страховки, промокодов и налогов
+        // Calculate base cost based on duration and zone pricing
+        TariffZone startZone = ride.getStartZone();
+        BigDecimal basePrice = startZone.getBasePrice();
+        BigDecimal pricePerMinute = startZone.getPricePerMinute();
+        int durationMinutes = ride.getDurationMinutes();
+
+        // Base cost = base price + (duration in minutes * price per minute)
+        BigDecimal baseCost = basePrice.add(
+                pricePerMinute.multiply(BigDecimal.valueOf(durationMinutes))
+        );
+        ride.setBaseCost(baseCost);
+
+        // Initialize total cost with base cost
+        BigDecimal totalCost = baseCost;
+
+        // Add insurance cost if applicable
+        if (ride.getInsurance() != null) {
+            totalCost = totalCost.add(ride.getInsurance().getPrice());
+        }
+
+        // Apply promo code discount if applicable
+        if (ride.getPromoCode() != null) {
+            PromoCode promoCode = ride.getPromoCode();
+            BigDecimal discountValue = promoCode.getDiscountValue();
+
+            if (promoCode.getDiscountType() == DiscountType.PERCENTAGE) {
+                // Percentage discount: subtract percentage of total cost
+                BigDecimal discountAmount = totalCost.multiply(discountValue.divide(BigDecimal.valueOf(100)));
+                totalCost = totalCost.subtract(discountAmount);
+            } else {
+                // Fixed amount discount: subtract fixed value
+                totalCost = totalCost.subtract(discountValue);
+                // Ensure total cost doesn't go below zero
+                if (totalCost.compareTo(BigDecimal.ZERO) < 0) {
+                    totalCost = BigDecimal.ZERO;
+                }
+            }
+
+            // Update promo code usage
+            promoCode.setCurrentUses(promoCode.getCurrentUses() + 1);
+            promoCodeRepository.save(promoCode);
+        }
+
+        ride.setTotalCost(totalCost);
+
+        // Calculate taxes (assuming we have a tax rate repository)
+        // For simplicity, let's assume there's a standard tax rate of 10%
+        BigDecimal taxRate = BigDecimal.valueOf(0.10); // 10%
+        BigDecimal taxAmount = totalCost.multiply(taxRate);
+        ride.setTaxAmount(taxAmount);
+
+        // Calculate final cost (total + tax)
+        BigDecimal finalCost = totalCost.add(taxAmount);
+        ride.setFinalCost(finalCost);
     }
 }

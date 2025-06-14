@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TariffZoneServiceImpl implements TariffZoneService {
@@ -41,20 +42,27 @@ public class TariffZoneServiceImpl implements TariffZoneService {
         }
 
         TariffZone zone = modelMapper.map(tariffZoneDto, TariffZone.class);
+        // Ensure all fields are properly set
+        zone.setZoneName(tariffZoneDto.getZoneName());
+        zone.setBasePrice(tariffZoneDto.getBasePrice());
+        zone.setPricePerMinute(tariffZoneDto.getPricePerMinute());
         tariffZoneRepository.save(zone);
     }
 
     @Override
-    public List<TariffZone> getAllTariffZones() {
-        return tariffZoneRepository.findAll();
-    }
-
-    @Override
     public void updateZonePrices(String zoneId, BigDecimal newBasePrice, BigDecimal newPricePerMinute) {
+        Objects.requireNonNull(newBasePrice, "Base price cannot be null");
+        Objects.requireNonNull(newPricePerMinute, "Price per minute cannot be null");
+
         tariffZoneRepository.findById(zoneId).ifPresent(zone -> {
             zone.setBasePrice(newBasePrice);
             zone.setPricePerMinute(newPricePerMinute);
             tariffZoneRepository.save(zone);
         });
+    }
+
+    @Override
+    public List<TariffZone> getAllTariffZones() {
+        return tariffZoneRepository.findAll();
     }
 }
