@@ -1,8 +1,7 @@
 package org.example.models;
 
 import jakarta.persistence.*;
-import org.example.enums.DiscountType;
-import org.example.models.BaseEntity;
+import org.example.models.enums.DiscountType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,7 +18,6 @@ public class PromoCode extends BaseEntity {
     private Integer currentUses = 0;
     private Boolean isActive = true;
 
-    // Геттеры и сеттеры
     @Column(name = "code", nullable = false, unique = true)
     public String getCode() {
         return code;
@@ -85,11 +83,11 @@ public class PromoCode extends BaseEntity {
     }
 
     @Column(name = "is_active", nullable = false)
-    public Boolean getActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
+    public void setIsActive(Boolean active) {
         isActive = active;
     }
 }
