@@ -55,15 +55,12 @@ class UserServiceImplTest {
 
     @Test
     void registerUserWithValidDtoShouldSaveUser() {
-        // Arrange
         when(validationUtil.isValid(validUserDto)).thenReturn(true);
         when(userRepository.findByEmail(validUserDto.getEmail())).thenReturn(null);
         when(modelMapper.map(validUserDto, User.class)).thenReturn(user);
 
-        // Act
         userService.registerUser(validUserDto);
 
-        // Assert
         verify(userRepository, times(1)).save(user);
     }
 
