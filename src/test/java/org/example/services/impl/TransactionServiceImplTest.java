@@ -63,27 +63,22 @@ class TransactionServiceImplTest {
 
     @Test
     void recordTransactionWithValidDtoShouldSaveTransaction() {
-        // Arrange
         when(validationUtil.isValid(validTransactionDto)).thenReturn(true);
         when(modelMapper.map(validTransactionDto, Transaction.class)).thenReturn(transaction);
 
-        // Act
         transactionService.recordTransaction(validTransactionDto);
 
-        // Assert
         verify(transactionRepository, times(1)).save(transaction);
         assertNotNull(transaction.getTransactionDate());
     }
 
     @Test
     void recordTransactionWithNullUserIdShouldThrowException() {
-        // Arrange
         validTransactionDto.setUserId(null);
         when(validationUtil.isValid(validTransactionDto)).thenReturn(false);
         when(validationUtil.violations(validTransactionDto))
                 .thenReturn(Collections.emptySet());
 
-        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
             transactionService.recordTransaction(validTransactionDto);
         });
@@ -92,13 +87,11 @@ class TransactionServiceImplTest {
 
     @Test
     void recordTransactionWithNegativeAmountShouldThrowException() {
-        // Arrange
         validTransactionDto.setAmount(BigDecimal.valueOf(-10.0));
         when(validationUtil.isValid(validTransactionDto)).thenReturn(false);
         when(validationUtil.violations(validTransactionDto))
                 .thenReturn(Collections.emptySet());
 
-        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
             transactionService.recordTransaction(validTransactionDto);
         });
@@ -107,13 +100,11 @@ class TransactionServiceImplTest {
 
     @Test
     void recordTransactionWithNullPaymentMethodShouldThrowException() {
-        // Arrange
         validTransactionDto.setPaymentMethodId(null);
         when(validationUtil.isValid(validTransactionDto)).thenReturn(false);
         when(validationUtil.violations(validTransactionDto))
                 .thenReturn(Collections.emptySet());
 
-        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
             transactionService.recordTransaction(validTransactionDto);
         });
@@ -122,13 +113,11 @@ class TransactionServiceImplTest {
 
     @Test
     void recordTransactionWithNullStatusShouldThrowException() {
-        // Arrange
         validTransactionDto.setStatus(null);
         when(validationUtil.isValid(validTransactionDto)).thenReturn(false);
         when(validationUtil.violations(validTransactionDto))
                 .thenReturn(Collections.emptySet());
 
-        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
             transactionService.recordTransaction(validTransactionDto);
         });
@@ -137,12 +126,10 @@ class TransactionServiceImplTest {
 
     @Test
     void recordTransactionWhenRepositoryFailsShouldPropagateException() {
-        // Arrange
         when(validationUtil.isValid(validTransactionDto)).thenReturn(true);
         when(modelMapper.map(validTransactionDto, Transaction.class)).thenReturn(transaction);
         when(transactionRepository.save(any())).thenThrow(new DataAccessException("DB error") {});
 
-        // Act & Assert
         assertThrows(DataAccessException.class, () -> {
             transactionService.recordTransaction(validTransactionDto);
         });
@@ -150,30 +137,24 @@ class TransactionServiceImplTest {
 
     @Test
     void getUserTransactionsShouldReturnUserTransactions() {
-        // Arrange
         String userId = "user123";
         List<Transaction> expectedTransactions = Collections.singletonList(transaction);
         when(transactionRepository.findByUserId(userId)).thenReturn(expectedTransactions);
 
-        // Act
         List<Transaction> result = transactionService.getUserTransactions(userId);
 
-        // Assert
         assertEquals(expectedTransactions, result);
         verify(transactionRepository, times(1)).findByUserId(userId);
     }
 
     @Test
     void updateTransactionStatusWithExistingTransactionShouldUpdateStatus() {
-        // Arrange
         String transactionId = "txn123";
         TransactionStatus newStatus = TransactionStatus.FAILED;
         when(transactionRepository.findById(transactionId)).thenReturn(Optional.of(transaction));
 
-        // Act
         transactionService.updateTransactionStatus(transactionId, newStatus);
 
-        // Assert
         assertEquals(newStatus, transaction.getStatus());
         verify(transactionRepository, times(1)).save(transaction);
     }
