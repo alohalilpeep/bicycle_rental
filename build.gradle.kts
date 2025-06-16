@@ -71,7 +71,7 @@ publishing {
             from(components["java"])
             groupId = "org.alohalilpeep"
             artifactId = "bicycle-rental"
-            version = "1.0.0"
+            version = "1.0.1"
         }
     }
 }
